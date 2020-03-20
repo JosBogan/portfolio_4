@@ -1,0 +1,50 @@
+* {
+  margin: 0;
+  padding: 0
+}
+
+/* Navbar */
+
+.navbar {
+  position: fixed;
+  height: 80%;
+  width: 100px;
+  background: red;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+}
+
+/* canvas */
+
+.intro_container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+}
+
+.intro_backdrop_container {
+  height: 80%;
+  width: 80%;
+  /* background: orange; */
+  position: relative;
+}
+
+.canvas_background, .canvas_foreground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* height: 100%; */
+  /* width: 100%; */
+}
+
+.canvas_background {
+  z-index: 1;
+}
+
+.canvas_foreground {
+  pointer-events: none;
+  z-index: -1;
+}
