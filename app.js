@@ -2,98 +2,210 @@ function init() {
 
   // DOM Elements
 
-  const introContainer = document.querySelector('.intro_backdrop_container')
+  const line = document.querySelector('.line')
+  const outerContainer = document.querySelector('.outer_container')
+  const home = document.querySelector('.home')
+  const aboutMe = document.querySelector('.about_me')
+  const projects = document.querySelector('.projects')
+  const contact = document.querySelector('.contact')
+  const scroller = document.querySelector('.nav_scroller_icon')
+  const homeIcon = document.querySelector('.home_icon')
+  const aboutMeIcon = document.querySelector('.about_me_icon')
+  const projectsIcon = document.querySelector('.projects_icon')
+  const contactIcon = document.querySelector('.contact_icon')
 
-  const canvasBackground = document.querySelector('.canvas_background')
-  const ctxBg = canvasBackground.getContext('2d')
+  const windowHeight = outerContainer.offsetHeight
 
-  const canvasForeground = document.querySelector('.canvas_foreground')
-  const ctxFg = canvasForeground.getContext('2d') 
+  const order = [home, aboutMe, projects, contact]
+  let scrollPos = 0
+  let currentPage = home
+  let lineColour = 0
+  let pageColour = 1
+  let lineMove = true
+  let iconClickable = true
 
-  const canvasWidth = introContainer.getBoundingClientRect().width
-  const canvasHeight = introContainer.getBoundingClientRect().height
-
-  canvasBackground.width = canvasWidth
-  canvasBackground.height = canvasHeight
-
-  canvasForeground.width = canvasWidth
-  canvasForeground.height = canvasHeight
-
-  //  Variables
-
-  let past = null
-  const linesArr = []
-
-  const canvasBoxDimensions = {
-    x: 50,
-    y: 50
+  function nextPage() {
+    lineMove = false
+    iconClickable = false
+    // order[order.indexOf(page) + 1].style.zIndex = '200'
+    // console.log(order[order.indexOf(currentPage) + 1])
+    currentPage = order[order.indexOf(currentPage) + 1] ? order[order.indexOf(currentPage) + 1] : order[0]
+    pageContentClassChange()
+    zIndexChange(currentPage)
+    // currentPage.classList.toggle('purple_background')
+    currentPage.classList.add('page_open')
+    line.classList.add('line_animation_test')
+    line.style.height = '0px'
+    // // focusChange(order[order.indexOf(page) + 1])
+    // // page = order[order.indexOf(page) + 1]
   }
 
-  const canvasGridDimensions = {
-    x: canvasBackground.width / canvasBoxDimensions.x,
-    y: canvasBackground.height / canvasBoxDimensions.y
-  }
-
-  // 
-
-
-  function drawDots() {
-    for (let x = (canvasBoxDimensions.x / 2); x < canvasWidth; x += canvasBoxDimensions.x) {
-      for (let y = (canvasBoxDimensions.y / 2); y < canvasHeight; y += canvasBoxDimensions.y) {
-        ctxBg.fillStyle = '#D8D8D8'
-        ctxBg.beginPath()
-        ctxBg.arc(x, y, 4, 0, 2 * Math.PI)
-        ctxBg.fill()
-      }
+  function pageContentClassChange() {
+    console.log(currentPage)
+    switch (currentPage) {
+      case home:
+        pageColour ? home.classList.add('reverse_home') : home.classList.remove('reverse_home')
+        break
+      case aboutMe:
+        console.log('here')
+        !pageColour ? aboutMe.classList.add('reverse_about_me') : aboutMe.classList.remove('reverse_about_me')
+        break
+      case projects:
+        break
+      case contact:
+        break
     }
   }
 
-  function moveMouseFunc(event) {
-    const mouseX = event.clientX - introContainer.getBoundingClientRect().x - 25
-    const mouseY = event.clientY - introContainer.getBoundingClientRect().y - 25
-    const cellX = parseInt((mouseX + canvasBoxDimensions.x / 2) / canvasBoxDimensions.x) * canvasBoxDimensions.x + 25
-    const cellY = parseInt((mouseY + canvasBoxDimensions.y / 2) / canvasBoxDimensions.y) * canvasBoxDimensions.y + 25
-    if (!past) {
-      past = {
-        x: cellX,
-        y: cellY,
-        a: 1
-      }
-      return linesArr.push(past)
+  function scrollFunc(event) {
+    if (!lineMove) return
+    const change = event.deltaY
+    if (scrollPos + change < 0) {
+      scrollPos = 0
+    } else if (scrollPos + change > windowHeight) {
+      scrollPos = windowHeight
+    } else {
+      scrollPos += change
     }
-    if (past.x !== cellX || past.y !== cellY) {
-      const newLocation = {
-        x: cellX,
-        y: cellY,
-        a: 1
-      }
-      linesArr.push(newLocation)
-      past = { ...newLocation }
+    // console.log(scrollPos)
+    scrollerHeight()
+    line.style.height = `${scrollPos}px`
+    if (scrollPos === windowHeight) nextPage()
+  }
+
+  function scrollerHeight() {
+    let top = Math.floor(((scrollPos / windowHeight) * 100) / 3)
+    switch (currentPage) {
+      case home:
+        top += 0
+        break
+      case aboutMe:
+        top += Math.floor(100 / 3)
+        break
+      case projects:
+        top += Math.floor((100 / 3) * 2)
+        break
+      case contact:
+        top += 100
+        break
+    }
+    if (top >= 116) top = - 16 + (top - 116)
+    // console.log(top)
+    scroller.style.top = `${top}%`
+  }
+
+  function clipPathEnd() {
+    // setColours()
+    if (event.propertyName === 'clip-path') {
+      // setColours()
+      scrollPos = 0
+      // line.style.height = '0px'
+      // home.style.zIndex = '1'
+      line.style.zIndex = '201'
+      // zIndexChange(order[order.indexOf(page) + 1])
+      focusChange(currentPage)
+      // colourChange(currentPage)
+      // page = order[order.indexOf(page) + 1]
+      lineChange()
+      setColours(currentPage)
+      lineMove = true
+      iconClickable = true
+    }
+    if (event.propertyName === 'height') {
+      line.classList.remove('line_animation_test')
+    }
+    // setColours()
+    // currentPage.classList.remove('page_open')
+    // currentPage.classList.add('page_full_clip')
+  }
+
+  function lineChange() {
+    line.classList.toggle('white_line')
+    !lineColour ? lineColour = 1 : lineColour = 0
+  }
+
+  function zIndexChange(currentPage) {
+    order.forEach(page => {
+      page !== currentPage ? page.style.zIndex = '1' : page.style.zIndex = '200'
+    })
+  }
+
+  function colourChange(current) {
+    order.forEach(page => {
+      if (page !== current) page.classList.toggle('purple_background')
+    })
+  }
+
+  function setColours() {
+    if (!pageColour) {
+      order.forEach(page => {
+        if (page !== currentPage) page.classList.add('purple_background')
+      })
+      pageColour = 1
+      // console.log('adding purple')
+    } else {
+      order.forEach(page => {
+        if (page !== currentPage) page.classList.remove('purple_background')
+      })
+      pageColour = 0
+      // console.log('removing purple')
+    }
+    // console.log(order)
+  }
+
+  function focusChange(current) {
+    order.forEach(page => {
+      if (page !== current) page.classList.remove('page_open')
+    })
+    // page = current
+  }
+
+  function clickIconEvent(event) {
+    if (!iconClickable) return
+    iconClickable = false
+    lineMove = false
+    switch (event.target) {
+      case homeIcon:
+        currentPage = home
+        pageContentClassChange()
+        zIndexChange(currentPage)
+        currentPage.classList.add('page_open')
+        scroller.style.top = '0%'
+        break
+      case aboutMeIcon:
+        currentPage = aboutMe
+        pageContentClassChange()
+        zIndexChange(currentPage)
+        currentPage.classList.add('page_open')
+        scroller.style.top = `${100 / 3}%`
+        break
+      case projectsIcon:
+        currentPage = projects
+        pageContentClassChange()
+        zIndexChange(currentPage)
+        currentPage.classList.add('page_open')
+        scroller.style.top = `${(100 / 3) * 2}%`
+        break
+      case contactIcon:
+        currentPage = contact
+        pageContentClassChange()
+        zIndexChange(currentPage)
+        currentPage.classList.add('page_open')
+        scroller.style.top = '100%'
+        break
     }
   }
 
-  function canvasTick() {
-    ctxFg.clearRect(0, 0, canvasWidth, canvasHeight)
-    for (let i = 0; i < linesArr.length - 1; i++) {
-      linesArr[i].a = linesArr[i].a - 0.02
-      ctxFg.beginPath()
-      ctxFg.lineWidth = 2
-      ctxFg.strokeStyle = 'rgba(85, 85, 85, ' + linesArr[i].a + ')'
-      ctxFg.moveTo(linesArr[i].x, linesArr[i].y)
-      ctxFg.lineTo(linesArr[i + 1].x, linesArr[i + 1].y)
-      ctxFg.stroke()
-      ctxFg.closePath()
-      if (linesArr[i].a < 0) linesArr.splice(i, 1)
-    }
-    window.requestAnimationFrame(canvasTick)
-  }
+  // Icon buttons
 
-  window.requestAnimationFrame(canvasTick)
-  drawDots()
-  // console.log(canvasGridDimensions)
+  homeIcon.addEventListener('click', clickIconEvent)
+  aboutMeIcon.addEventListener('click', clickIconEvent)
+  projectsIcon.addEventListener('click', clickIconEvent)
+  contactIcon.addEventListener('click', clickIconEvent)
 
 
-  canvasBackground.addEventListener('mousemove', moveMouseFunc)
+  window.addEventListener('wheel', scrollFunc)
+  window.addEventListener('transitionend', clipPathEnd)
 
 }
 
