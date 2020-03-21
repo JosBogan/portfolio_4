@@ -47,11 +47,9 @@ function init() {
         pageColour ? home.classList.add('reverse_home') : home.classList.remove('reverse_home')
         break
       case aboutMe:
-        // console.log('here')
         !pageColour ? aboutMe.classList.add('reverse_about_me') : aboutMe.classList.remove('reverse_about_me')
         break
       case projects:
-        console.log('here')
         pageColour ? projects.classList.add('reverse_projects') : projects.classList.remove('reverse_projects')
         break
       case contact:
@@ -60,6 +58,7 @@ function init() {
   }
 
   function scrollFunc(event) {
+    if (window.innerWidth < 480) return
     if (!lineMove) return
     const change = event.deltaY
     if (scrollPos + change < 0) {
@@ -168,6 +167,7 @@ function init() {
     lineMove = false
     switch (event.target) {
       case homeIcon:
+        if (currentPage === home) return iconClickable, lineMove = true
         currentPage = home
         pageContentClassChange()
         zIndexChange(currentPage)
@@ -175,6 +175,7 @@ function init() {
         scroller.style.top = '0%'
         break
       case aboutMeIcon:
+        if (currentPage === aboutMe) return iconClickable = true
         currentPage = aboutMe
         pageContentClassChange()
         zIndexChange(currentPage)
@@ -182,6 +183,7 @@ function init() {
         scroller.style.top = `${100 / 3}%`
         break
       case projectsIcon:
+        if (currentPage === projects) return iconClickable = true
         currentPage = projects
         pageContentClassChange()
         zIndexChange(currentPage)
@@ -189,6 +191,7 @@ function init() {
         scroller.style.top = `${(100 / 3) * 2}%`
         break
       case contactIcon:
+        if (currentPage === contact) return iconClickable = true
         currentPage = contact
         pageContentClassChange()
         zIndexChange(currentPage)
