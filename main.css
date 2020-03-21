@@ -306,6 +306,8 @@ h1, h2, h3 {
   max-width: 40%;
   border-radius: 10px;
   transition: all 0.1s;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .project_card:hover {
@@ -330,6 +332,10 @@ h1, h2, h3 {
 
 .project_card_content > p {
   height: 100%;
+  text-align: center;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
 }
 
 .p_right {
@@ -344,6 +350,18 @@ h1, h2, h3 {
   margin: 5px;
   max-width: 14vw;
   border-radius: 10px;
+}
+
+.reverse_projects .project_card {
+  background: white;
+}
+
+.reverse_projects .project_card h3 {
+  color: var(--purple);
+}
+
+.reverse_projects .project_card p {
+  color: var(--dark);
 }
 
 /*  */

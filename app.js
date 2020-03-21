@@ -47,10 +47,12 @@ function init() {
         pageColour ? home.classList.add('reverse_home') : home.classList.remove('reverse_home')
         break
       case aboutMe:
-        console.log('here')
+        // console.log('here')
         !pageColour ? aboutMe.classList.add('reverse_about_me') : aboutMe.classList.remove('reverse_about_me')
         break
       case projects:
+        console.log('here')
+        pageColour ? projects.classList.add('reverse_projects') : projects.classList.remove('reverse_projects')
         break
       case contact:
         break
