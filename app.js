@@ -104,6 +104,7 @@ function init() {
       scrollPos = 0
       // line.style.height = '0px'
       // home.style.zIndex = '1'
+      line.style.height = '0px'
       line.style.zIndex = '201'
       // zIndexChange(order[order.indexOf(page) + 1])
       focusChange(currentPage)
@@ -121,6 +122,12 @@ function init() {
     // setColours()
     // currentPage.classList.remove('page_open')
     // currentPage.classList.add('page_full_clip')
+  }
+  
+  function clipPathStart() {
+    if (event.propertyName === 'clip-path') {
+      line.style.zIndex = '99'
+    }
   }
 
   function lineChange() {
@@ -170,7 +177,11 @@ function init() {
     lineMove = false
     switch (event.target) {
       case homeIcon:
-        if (currentPage === home) return iconClickable, lineMove = true
+        if (currentPage === home) {
+          iconClickable = true
+          lineMove = true
+          return
+        }
         currentPage = home
         pageContentClassChange()
         zIndexChange(currentPage)
@@ -178,7 +189,11 @@ function init() {
         scroller.style.top = '0%'
         break
       case aboutMeIcon:
-        if (currentPage === aboutMe) return iconClickable = true
+        if (currentPage === aboutMe) {
+          iconClickable = true
+          lineMove = true
+          return
+        }
         currentPage = aboutMe
         pageContentClassChange()
         zIndexChange(currentPage)
@@ -186,7 +201,11 @@ function init() {
         scroller.style.top = `${100 / 3}%`
         break
       case projectsIcon:
-        if (currentPage === projects) return iconClickable = true
+        if (currentPage === projects) {
+          iconClickable = true
+          lineMove = true
+          return
+        }
         currentPage = projects
         pageContentClassChange()
         zIndexChange(currentPage)
@@ -194,7 +213,11 @@ function init() {
         scroller.style.top = `${(100 / 3) * 2}%`
         break
       case contactIcon:
-        if (currentPage === contact) return iconClickable = true
+        if (currentPage === contact) {
+          iconClickable = true
+          lineMove = true
+          return
+        }
         currentPage = contact
         pageContentClassChange()
         zIndexChange(currentPage)
@@ -214,6 +237,7 @@ function init() {
 
   window.addEventListener('wheel', scrollFunc)
   window.addEventListener('transitionend', clipPathEnd)
+  window.addEventListener('transitionstart', clipPathStart)
 
 }
 
