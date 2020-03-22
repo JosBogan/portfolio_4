@@ -33,6 +33,7 @@ function init() {
     pageContentClassChange()
     zIndexChange(currentPage)
     // currentPage.classList.toggle('purple_background')
+    line.style.zIndex = '199'
     currentPage.classList.add('page_open')
     line.classList.add('line_animation_test')
     line.style.height = '0px'
@@ -53,6 +54,7 @@ function init() {
         pageColour ? projects.classList.add('reverse_projects') : projects.classList.remove('reverse_projects')
         break
       case contact:
+        !pageColour ? contact.classList.add('reverse_contact') : contact.classList.remove('reverse_contact')
         break
     }
   }
@@ -114,6 +116,7 @@ function init() {
     }
     if (event.propertyName === 'height') {
       line.classList.remove('line_animation_test')
+      line.style.zIndex = '99'
     }
     // setColours()
     // currentPage.classList.remove('page_open')
