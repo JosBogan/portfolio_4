@@ -509,7 +509,7 @@ li {
 }
 
 .page_open {
-  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: clip-path 1.5s cubic-bezier(0.16, 1, 0.3, 1);
   clip-path: circle(100% at 50% 50%);
 }
 
