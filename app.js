@@ -8,17 +8,23 @@ function init() {
   const aboutMe = document.querySelector('.about_me')
   const projects = document.querySelector('.projects')
   const contact = document.querySelector('.contact')
-  const scroller = document.querySelector('.nav_scroller_icon')
-  const homeIcon = document.querySelector('.home_icon')
-  const aboutMeIcon = document.querySelector('.about_me_icon')
-  const projectsIcon = document.querySelector('.projects_icon')
-  const contactIcon = document.querySelector('.contact_icon')
+  const scroller = document.querySelectorAll('.nav_scroller_icon')
+  const homeIcons = document.querySelectorAll('.home_icon')
+  const aboutMeIcons = document.querySelectorAll('.about_me_icon')
+  const projectsIcons = document.querySelectorAll('.projects_icon')
+  const contactIcons = document.querySelectorAll('.contact_icon')
+  const navbars = document.querySelectorAll('.navbar')
+  // const navTimeline = document.querySelector('.nav_timeline_line')
 
   const windowHeight = outerContainer.offsetHeight
+  const windowWidth = outerContainer.offsetWidth
+
+  // console.log(windowWidth)
 
   const order = [home, aboutMe, projects, contact]
   let scrollPos = 0
   let currentPage = home
+  let currentNav = navbars[0]
   let lineColour = 0
   let pageColour = 1
   let lineMove = true
@@ -30,6 +36,7 @@ function init() {
     // order[order.indexOf(page) + 1].style.zIndex = '200'
     // console.log(order[order.indexOf(currentPage) + 1])
     currentPage = order[order.indexOf(currentPage) + 1] ? order[order.indexOf(currentPage) + 1] : order[0]
+    currentNav = order[order.indexOf(currentNav) + 1] ? order[order.indexOf(currentNav) + 1] : order[0]
     pageContentClassChange()
     zIndexChange(currentPage)
     // currentPage.classList.toggle('purple_background')
@@ -41,20 +48,61 @@ function init() {
     // // page = order[order.indexOf(page) + 1]
   }
 
+  // function pageContentClassChange() {
+  //   console.log(currentPage)
+  //   switch (currentPage) {
+  //     case home:
+  //       pageColour ? home.classList.add('reverse_home') : home.classList.remove('reverse_home')
+  //       break
+  //     case aboutMe:
+  //       !pageColour ? aboutMe.classList.add('reverse_about_me') : aboutMe.classList.remove('reverse_about_me')
+  //       break
+  //     case projects:
+  //       pageColour ? projects.classList.add('reverse_projects') : projects.classList.remove('reverse_projects')
+  //       break
+  //     case contact:
+  //       !pageColour ? contact.classList.add('reverse_contact') : contact.classList.remove('reverse_contact')
+  //       break
+  //   }
+  // }
+
   function pageContentClassChange() {
-    console.log(currentPage)
     switch (currentPage) {
       case home:
-        pageColour ? home.classList.add('reverse_home') : home.classList.remove('reverse_home')
+        if (pageColour) {
+          home.classList.add('reverse_home')
+          windowWidth >= 1025 && navbars[0].classList.add('reverse_nav')
+        } else {
+          home.classList.remove('reverse_home')
+          windowWidth >= 1025 && navbars[0].classList.remove('reverse_nav')
+        }
         break
       case aboutMe:
-        !pageColour ? aboutMe.classList.add('reverse_about_me') : aboutMe.classList.remove('reverse_about_me')
+        if (!pageColour) {
+          aboutMe.classList.add('reverse_about_me')
+          windowWidth >= 1025 && navbars[1].classList.remove('reverse_nav')
+        } else {
+          aboutMe.classList.remove('reverse_about_me')
+          windowWidth >= 1025 && navbars[1].classList.add('reverse_nav')
+        }
         break
       case projects:
-        pageColour ? projects.classList.add('reverse_projects') : projects.classList.remove('reverse_projects')
+        if (pageColour) {
+          projects.classList.add('reverse_projects')
+          windowWidth >= 1025 && navbars[2].classList.add('reverse_nav')
+        } else {
+          projects.classList.remove('reverse_projects')
+          windowWidth >= 1025 && navbars[2].classList.remove('reverse_nav')
+        }
         break
       case contact:
-        !pageColour ? contact.classList.add('reverse_contact') : contact.classList.remove('reverse_contact')
+        if (!pageColour) {
+          contact.classList.add('reverse_contact')
+          windowWidth >= 1025 && navbars[3].classList.remove('reverse_nav')
+        } else {
+          contact.classList.remove('reverse_contact')
+          windowWidth >= 1025 && navbars[3].classList.add('reverse_nav')
+        }
         break
     }
   }
@@ -77,24 +125,26 @@ function init() {
   }
 
   function scrollerHeight() {
-    let top = Math.floor(((scrollPos / windowHeight) * 100) / 3)
+    let left = ((scrollPos / windowHeight) * 100) / 3
     switch (currentPage) {
       case home:
-        top += 0
+        left += 0
         break
       case aboutMe:
-        top += Math.floor(100 / 3)
+        left += 100 / 3
         break
       case projects:
-        top += Math.floor((100 / 3) * 2)
+        left += (100 / 3) * 2
         break
       case contact:
-        top += 100
+        left += 100
         break
     }
-    if (top >= 116) top = - 16 + (top - 116)
+    if (left >= 116) left = - 16 + (left - 116)
     // console.log(top)
-    scroller.style.top = `${top}%`
+    // console.log(scroller)
+    scroller.forEach(scroll => scroll.style.left = `${left}%`)
+    // scroller.style.left = `${left}%`
   }
 
   function clipPathEnd() {
@@ -147,17 +197,44 @@ function init() {
     })
   }
 
+  // function setNavColours() {
+  //   if (!pageColour) {
+  //     navbars.forEach(navbar => {
+  //       if (navbar !== currentNav) navbar.classList.add('navbar_purple_background')
+  //     })
+  //     // navTimeline.classList.remove('nav_timeline_white')
+  //     pageColour = 1
+  //     // console.log('adding purple')
+  //   } else {
+  //     navbars.forEach(navbar => {
+  //       if (navbar !== currentNav) navbar.classList.remove('navbar_purple_background')
+  //     })
+  //     // navTimeline.classList.add('nav_timeline_white')
+  //     pageColour = 0
+  //     // console.log('removing purple')
+  //   }
+  //   // console.log(order)
+  // }
+
   function setColours() {
     if (!pageColour) {
+      // navbars.forEach(navbar => {
+      //   if (navbar !== currentNav) navbar.classList.add('navbar_purple_background')
+      // })
       order.forEach(page => {
         if (page !== currentPage) page.classList.add('purple_background')
       })
+      // navTimeline.classList.remove('nav_timeline_white')
       pageColour = 1
       // console.log('adding purple')
     } else {
+      // navbars.forEach(navbar => {
+      //   if (navbar !== currentNav) navbar.classList.remove('navbar_purple_background')
+      // })
       order.forEach(page => {
         if (page !== currentPage) page.classList.remove('purple_background')
       })
+      // navTimeline.classList.add('nav_timeline_white')
       pageColour = 0
       // console.log('removing purple')
     }
@@ -171,68 +248,129 @@ function init() {
     // page = current
   }
 
+  // function clickIconEvent(event) {
+  //   if (!iconClickable) return
+  //   iconClickable = false
+  //   lineMove = false
+  //   switch (event.target) {
+  //     case homeIcon:
+  //       if (currentPage === home) {
+  //         iconClickable = true
+  //         lineMove = true
+  //         return
+  //       }
+  //       currentPage = home
+  //       pageContentClassChange()
+  //       zIndexChange(currentPage)
+  //       currentPage.classList.add('page_open')
+  //       scroller.forEach(scroll => scroll.style.left = '0%')
+  //       // scroller.style.left = '0%'
+  //       break
+  //     case aboutMeIcon:
+  //       if (currentPage === aboutMe) {
+  //         iconClickable = true
+  //         lineMove = true
+  //         return
+  //       }
+  //       currentPage = aboutMe
+  //       pageContentClassChange()
+  //       zIndexChange(currentPage)
+  //       currentPage.classList.add('page_open')
+  //       scroller.forEach(scroll => scroll.style.left = `${100 / 3}%`)
+  //       // scroller.style.left = `${100 / 3}%`
+  //       break
+  //     case projectsIcon:
+  //       if (currentPage === projects) {
+  //         iconClickable = true
+  //         lineMove = true
+  //         return
+  //       }
+  //       currentPage = projects
+  //       pageContentClassChange()
+  //       zIndexChange(currentPage)
+  //       currentPage.classList.add('page_open')
+  //       scroller.forEach(scroll => scroll.style.left = `${(100 / 3) * 2}%`)
+  //       // scroller.style.left = `${(100 / 3) * 2}%`
+  //       break
+  //     case contactIcon:
+  //       if (currentPage === contact) {
+  //         iconClickable = true
+  //         lineMove = true
+  //         return
+  //       }
+  //       currentPage = contact
+  //       pageContentClassChange()
+  //       zIndexChange(currentPage)
+  //       currentPage.classList.add('page_open')
+  //       scroller.forEach(scroll => scroll.style.left = '100%')
+  //       // scroller.style.left = '100%'
+  //       break
+  //   }
+  // }
+
   function clickIconEvent(event) {
     if (!iconClickable) return
     iconClickable = false
     lineMove = false
-    switch (event.target) {
-      case homeIcon:
-        if (currentPage === home) {
-          iconClickable = true
-          lineMove = true
-          return
-        }
-        currentPage = home
-        pageContentClassChange()
-        zIndexChange(currentPage)
-        currentPage.classList.add('page_open')
-        scroller.style.top = '0%'
-        break
-      case aboutMeIcon:
-        if (currentPage === aboutMe) {
-          iconClickable = true
-          lineMove = true
-          return
-        }
-        currentPage = aboutMe
-        pageContentClassChange()
-        zIndexChange(currentPage)
-        currentPage.classList.add('page_open')
-        scroller.style.top = `${100 / 3}%`
-        break
-      case projectsIcon:
-        if (currentPage === projects) {
-          iconClickable = true
-          lineMove = true
-          return
-        }
-        currentPage = projects
-        pageContentClassChange()
-        zIndexChange(currentPage)
-        currentPage.classList.add('page_open')
-        scroller.style.top = `${(100 / 3) * 2}%`
-        break
-      case contactIcon:
-        if (currentPage === contact) {
-          iconClickable = true
-          lineMove = true
-          return
-        }
-        currentPage = contact
-        pageContentClassChange()
-        zIndexChange(currentPage)
-        currentPage.classList.add('page_open')
-        scroller.style.top = '100%'
-        break
+    if (Array.from(homeIcons).includes(event.target)) {
+      if (currentPage === home) {
+        iconClickable = true
+        lineMove = true
+        return
+      }
+      currentPage = home
+      pageContentClassChange()
+      zIndexChange(currentPage)
+      currentPage.classList.add('page_open')
+      scroller.forEach(scroll => scroll.style.left = '0%')
+    } else if (Array.from(aboutMeIcons).includes(event.target)) {
+      if (currentPage === aboutMe) {
+        iconClickable = true
+        lineMove = true
+        return
+      }
+      currentPage = aboutMe
+      pageContentClassChange()
+      zIndexChange(currentPage)
+      currentPage.classList.add('page_open')
+      scroller.forEach(scroll => scroll.style.left = `${100 / 3}%`)
+    } else if (Array.from(projectsIcons).includes(event.target)) {
+      if (currentPage === projects) {
+        iconClickable = true
+        lineMove = true
+        return
+      }
+      currentPage = projects
+      pageContentClassChange()
+      zIndexChange(currentPage)
+      currentPage.classList.add('page_open')
+      scroller.forEach(scroll => scroll.style.left = `${(100 / 3) * 2}%`)
+    } else if (Array.from(contactIcons).includes(event.target)) {
+      if (currentPage === contact) {
+        iconClickable = true
+        lineMove = true
+        return
+      }
+      currentPage = contact
+      pageContentClassChange()
+      zIndexChange(currentPage)
+      currentPage.classList.add('page_open')
+      scroller.forEach(scroll => scroll.style.left = '100%')
+        
     }
   }
 
   // Icon buttons
 
-  homeIcon.addEventListener('click', clickIconEvent)
-  aboutMeIcon.addEventListener('click', clickIconEvent)
-  projectsIcon.addEventListener('click', clickIconEvent)
-  contactIcon.addEventListener('click', clickIconEvent)
+  // homeIcon.addEventListener('click', clickIconEvent)
+  // aboutMeIcon.addEventListener('click', clickIconEvent)
+  // projectsIcon.addEventListener('click', clickIconEvent)
+  // contactIcon.addEventListener('click', clickIconEvent)
+
+  homeIcons.forEach(icon => icon.addEventListener('click', clickIconEvent))
+  aboutMeIcons.forEach(icon => icon.addEventListener('click', clickIconEvent))
+  projectsIcons.forEach(icon => icon.addEventListener('click', clickIconEvent))
+  contactIcons.forEach(icon => icon.addEventListener('click', clickIconEvent))
 
 
   window.addEventListener('wheel', scrollFunc)
