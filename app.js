@@ -374,6 +374,7 @@ function init() {
 
 
   window.addEventListener('wheel', scrollFunc)
+  window.addEventListener('touchmove', scrollFunc)
   window.addEventListener('transitionend', clipPathEnd)
   window.addEventListener('transitionstart', clipPathStart)
 
