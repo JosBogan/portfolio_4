@@ -108,6 +108,7 @@ function init() {
   }
 
   function scrollFunc(event) {
+    console.log('fda')
     if (window.innerWidth < 480) return
     if (!lineMove) return
     const change = event.deltaY

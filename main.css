@@ -194,6 +194,7 @@ li {
   width: 100%;
   /* background: blue; */
   clip-path: circle(0px at 50% 100%);
+  -webkit-clip-path: circle(0px at 50% 100%);
   /* transition: clip-path 1.5s cubic-bezier(0.16, 1, 0.3, 1); */
   background: whitesmoke;
 }
@@ -513,6 +514,7 @@ li {
 .page_open {
   transition: clip-path 1.5s cubic-bezier(0.16, 1, 0.3, 1);
   clip-path: circle(100% at 50% 50%);
+  -webkit-clip-path: circle(100% at 50% 50%);
 }
 
 /* .page_full_clip {
