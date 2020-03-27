@@ -140,7 +140,7 @@ function init() {
         left += 100
         break
     }
-    if (left >= 116) left = - 16 + (left - 116)
+    if (left >= 117) left = - 17 + (left - 117)
     // console.log(top)
     // console.log(scroller)
     scroller.forEach(scroll => scroll.style.left = `${left}%`)

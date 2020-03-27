@@ -361,7 +361,8 @@ li {
   display: flex;
   background: var(--purple);
   margin: 0px 20px;
-  min-width: 40%;
+  min-width: 470px;
+  min-height: 175px;
   max-width: 40%;
   border-radius: 10px;
   transition: all 0.1s;
@@ -408,6 +409,7 @@ li {
 .project_image {
   margin: 5px;
   max-width: 14vw;
+  min-width: 165px;
   border-radius: 10px;
 }
 
@@ -589,6 +591,15 @@ li {
 
   .nav_timeline_circle {
     border: 4px solid whitesmoke;
+  }
+
+  .projects_container {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .project_card {
+    margin: 4px 0;
   }
   
 }
