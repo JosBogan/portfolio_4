@@ -30,11 +30,16 @@ function init() {
   let lineMove = true
   let iconClickable = true
 
+  if (window.innerWidth < 480) {
+    home.classList.remove('purple_background')
+    aboutMe.classList.add('purple_background')
+    projects.classList.remove('purple_background')
+    contact.classList.add('purple_background')
+  }
+
   function nextPage() {
     lineMove = false
     iconClickable = false
-    // order[order.indexOf(page) + 1].style.zIndex = '200'
-    // console.log(order[order.indexOf(currentPage) + 1])
     currentPage = order[order.indexOf(currentPage) + 1] ? order[order.indexOf(currentPage) + 1] : order[0]
     currentNav = order[order.indexOf(currentNav) + 1] ? order[order.indexOf(currentNav) + 1] : order[0]
     pageContentClassChange()
@@ -47,24 +52,6 @@ function init() {
     // // focusChange(order[order.indexOf(page) + 1])
     // // page = order[order.indexOf(page) + 1]
   }
-
-  // function pageContentClassChange() {
-  //   console.log(currentPage)
-  //   switch (currentPage) {
-  //     case home:
-  //       pageColour ? home.classList.add('reverse_home') : home.classList.remove('reverse_home')
-  //       break
-  //     case aboutMe:
-  //       !pageColour ? aboutMe.classList.add('reverse_about_me') : aboutMe.classList.remove('reverse_about_me')
-  //       break
-  //     case projects:
-  //       pageColour ? projects.classList.add('reverse_projects') : projects.classList.remove('reverse_projects')
-  //       break
-  //     case contact:
-  //       !pageColour ? contact.classList.add('reverse_contact') : contact.classList.remove('reverse_contact')
-  //       break
-  //   }
-  // }
 
   function pageContentClassChange() {
     switch (currentPage) {
@@ -104,16 +91,51 @@ function init() {
           windowWidth >= 1025 && navbars[3].classList.add('reverse_nav')
         }
         break
+      
+    }
+  }
+
+  function backPage() {
+    iconClickable = false
+    lineMove = false
+    switch (currentPage) {
+      case home:
+        currentPage = contact
+        pageContentClassChange()
+        zIndexChange(currentPage)
+        currentPage.classList.add('page_open')
+        scroller.forEach(scroll => scroll.style.left = '100%')
+        break
+      case projects:
+        currentPage = aboutMe
+        pageContentClassChange()
+        zIndexChange(currentPage)
+        currentPage.classList.add('page_open')
+        scroller.forEach(scroll => scroll.style.left = `${100 / 3}%`)
+        break
+      case contact:
+        currentPage = projects
+        pageContentClassChange()
+        zIndexChange(currentPage)
+        currentPage.classList.add('page_open')
+        scroller.forEach(scroll => scroll.style.left = `${(100 / 3) * 2}%`)
+        break
+      case aboutMe:
+        currentPage = home
+        pageContentClassChange()
+        zIndexChange(currentPage)
+        currentPage.classList.add('page_open')
+        scroller.forEach(scroll => scroll.style.left = '0%')
+        break
     }
   }
 
   function scrollFunc(event) {
-    console.log('fda')
     if (window.innerWidth < 480) return
     if (!lineMove) return
     const change = event.deltaY
     if (scrollPos + change < 0) {
-      scrollPos = 0
+      backPage()
     } else if (scrollPos + change > windowHeight) {
       scrollPos = windowHeight
     } else {
@@ -149,18 +171,11 @@ function init() {
   }
 
   function clipPathEnd() {
-    // setColours()
-    if (event.propertyName === 'clip-path') {
-      // setColours()
+    if (event.propertyName === 'clip-path' || event.propertyName === '-webkit-clip-path') {
       scrollPos = 0
-      // line.style.height = '0px'
-      // home.style.zIndex = '1'
       line.style.height = '0px'
       line.style.zIndex = '201'
-      // zIndexChange(order[order.indexOf(page) + 1])
       focusChange(currentPage)
-      // colourChange(currentPage)
-      // page = order[order.indexOf(page) + 1]
       lineChange()
       setColours(currentPage)
       lineMove = true
@@ -170,9 +185,6 @@ function init() {
       line.classList.remove('line_animation_test')
       line.style.zIndex = '99'
     }
-    // setColours()
-    // currentPage.classList.remove('page_open')
-    // currentPage.classList.add('page_full_clip')
   }
   
   function clipPathStart() {
@@ -198,24 +210,6 @@ function init() {
     })
   }
 
-  // function setNavColours() {
-  //   if (!pageColour) {
-  //     navbars.forEach(navbar => {
-  //       if (navbar !== currentNav) navbar.classList.add('navbar_purple_background')
-  //     })
-  //     // navTimeline.classList.remove('nav_timeline_white')
-  //     pageColour = 1
-  //     // console.log('adding purple')
-  //   } else {
-  //     navbars.forEach(navbar => {
-  //       if (navbar !== currentNav) navbar.classList.remove('navbar_purple_background')
-  //     })
-  //     // navTimeline.classList.add('nav_timeline_white')
-  //     pageColour = 0
-  //     // console.log('removing purple')
-  //   }
-  //   // console.log(order)
-  // }
 
   function setColours() {
     if (!pageColour) {
@@ -248,66 +242,6 @@ function init() {
     })
     // page = current
   }
-
-  // function clickIconEvent(event) {
-  //   if (!iconClickable) return
-  //   iconClickable = false
-  //   lineMove = false
-  //   switch (event.target) {
-  //     case homeIcon:
-  //       if (currentPage === home) {
-  //         iconClickable = true
-  //         lineMove = true
-  //         return
-  //       }
-  //       currentPage = home
-  //       pageContentClassChange()
-  //       zIndexChange(currentPage)
-  //       currentPage.classList.add('page_open')
-  //       scroller.forEach(scroll => scroll.style.left = '0%')
-  //       // scroller.style.left = '0%'
-  //       break
-  //     case aboutMeIcon:
-  //       if (currentPage === aboutMe) {
-  //         iconClickable = true
-  //         lineMove = true
-  //         return
-  //       }
-  //       currentPage = aboutMe
-  //       pageContentClassChange()
-  //       zIndexChange(currentPage)
-  //       currentPage.classList.add('page_open')
-  //       scroller.forEach(scroll => scroll.style.left = `${100 / 3}%`)
-  //       // scroller.style.left = `${100 / 3}%`
-  //       break
-  //     case projectsIcon:
-  //       if (currentPage === projects) {
-  //         iconClickable = true
-  //         lineMove = true
-  //         return
-  //       }
-  //       currentPage = projects
-  //       pageContentClassChange()
-  //       zIndexChange(currentPage)
-  //       currentPage.classList.add('page_open')
-  //       scroller.forEach(scroll => scroll.style.left = `${(100 / 3) * 2}%`)
-  //       // scroller.style.left = `${(100 / 3) * 2}%`
-  //       break
-  //     case contactIcon:
-  //       if (currentPage === contact) {
-  //         iconClickable = true
-  //         lineMove = true
-  //         return
-  //       }
-  //       currentPage = contact
-  //       pageContentClassChange()
-  //       zIndexChange(currentPage)
-  //       currentPage.classList.add('page_open')
-  //       scroller.forEach(scroll => scroll.style.left = '100%')
-  //       // scroller.style.left = '100%'
-  //       break
-  //   }
-  // }
 
   function clickIconEvent(event) {
     if (!iconClickable) return
@@ -362,11 +296,6 @@ function init() {
   }
 
   // Icon buttons
-
-  // homeIcon.addEventListener('click', clickIconEvent)
-  // aboutMeIcon.addEventListener('click', clickIconEvent)
-  // projectsIcon.addEventListener('click', clickIconEvent)
-  // contactIcon.addEventListener('click', clickIconEvent)
 
   homeIcons.forEach(icon => icon.addEventListener('click', clickIconEvent))
   aboutMeIcons.forEach(icon => icon.addEventListener('click', clickIconEvent))
