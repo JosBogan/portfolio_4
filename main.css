@@ -60,9 +60,12 @@ body {
   z-index: 10;
 }
 
+.navbar_inner a {
+  margin-left: 50px;
+}
+
 .navbar_link {
   height: 100%;
-  margin-left: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -375,6 +378,8 @@ body {
   background: whitesmoke;
   width: 35vw;
   height: 35vw;
+  min-width: 340px;
+  min-height: 340px;
   border-radius: 50%;
 }
 
@@ -445,11 +450,44 @@ body {
 
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media screen and (max-width: 767px) {
+
+  .home_title_name {
+    font-size: 60px;
+  }
+
+  .home_title_job {
+    font-size: 40px;
+  }
+  
+}
+
+@media screen and (max-width: 480px) {
+
+  .navbar_inner {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .navbar_inner a {
+    margin: 0;
+  }
 
   .project_card {
     height: 75vw;
     width: 95vw;
+  }
+  
+}
+
+@media screen and (max-width: 370px) {
+
+  .project_card_title {
+    font-size: 20px;
+  }
+
+  .project_card_stack, .project_card_text {
+    font-size: 13px;
   }
   
 }
