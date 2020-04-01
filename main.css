@@ -132,12 +132,13 @@ body {
 .home_title_job {
   font-size: 60px;
   align-self: flex-end;
+  text-align: right;
 }
 
 /* Projects */
 
 .projects {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   z-index: 2;
   position: relative;
   width: 100%;
@@ -408,4 +409,47 @@ body {
   color: var(--purple);
   opacity: 0.5;
   margin-right: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+  
+  .project_card:hover .project_card:active {
+    z-index: 1;
+    transform: scale(1.1);
+  }
+
+  .project_card:hover .project_card:active .project_card_overlay {
+    opacity: 0.9;
+  }
+  
+  .project_card:hover .project_card:active .project_contents {
+    opacity: 1;
+  }
+  
+}
+
+@media screen and (max-width: 910px) {
+
+  .home_title_name, .home_title_job {
+    margin: 0 50px;
+  }
+  
+  .projects_container {
+    grid-template-columns: auto;
+  }
+
+  .project_card {
+    height: 60vw;
+    width: 70vw;
+  }
+
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+  .project_card {
+    height: 75vw;
+    width: 95vw;
+  }
+  
 }
