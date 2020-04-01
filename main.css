@@ -452,6 +452,19 @@ body {
 
 @media screen and (max-width: 767px) {
 
+  .about_me {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  .about_toggle_container {
+    flex-direction: row;
+    /* height: auto; */
+    height: 75px;
+    /* width: 400px; */
+    min-width: 400px;
+  }
+
   .home_title_name {
     font-size: 60px;
   }
@@ -477,6 +490,21 @@ body {
     height: 75vw;
     width: 95vw;
   }
+
+  .devicon {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 5px;
+    color: var(--dark);
+  }
+  
+  .devicon i {
+    font-size: 30px;
+    color: var(--purple);
+    margin-bottom: 5px;
+  }
   
 }
 
@@ -484,6 +512,14 @@ body {
 
   .project_card_title {
     font-size: 20px;
+  }
+
+  .about_toggle_container {
+    min-width: 320px;
+  }
+
+  .about_toggle h3 {
+    font-size: 18px;
   }
 
   .project_card_stack, .project_card_text {
